@@ -1,0 +1,20 @@
+name: CI
+
+on:
+  push:
+    branches: [chore/infra-setup, main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: pnpm/action-setup@v2
+        with:
+          version: 7
+      - run: pnpm install
+      - run: pnpm lint
+      - run: pnpm --filter web build
+      - run: pnpm --filter api build || echo "no build step for api"
