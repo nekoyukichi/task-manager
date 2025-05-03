@@ -1,0 +1,16 @@
+{
+    "name": "task-manager",
+    "private": true,
+    "workspaces": ["apps/*", "packages/*"],
+    "scripts": {
+      "dev:web": "pnpm --filter web dev",
+      "dev:api": "pnpm --filter api dev",
+      "lint": "pnpm lint",
+      "format": "pnpm format"
+    },
+    "devDependencies": {
+      "eslint": "^8.30.0",
+      "prettier": "^2.8.0"
+    }
+  }
+  
