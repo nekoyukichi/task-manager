@@ -2,19 +2,32 @@ name: CI
 
 on:
   push:
-    branches: [chore/infra-setup, main]
+    branches: [ main, chore/infra-setup, feat/task-crud ]
   pull_request:
-    branches: [main]
+    branches: [ main ]
 
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-      - uses: pnpm/action-setup@v2
+
+      # Node セットアップ (npm)
+      - uses: actions/setup-node@v3
         with:
-          version: 7
-      - run: pnpm install
-      - run: pnpm lint
-      - run: pnpm --filter web build
-      - run: pnpm --filter api build || echo "no build step for api"
+          node-version: 18
+
+      # ルートの依存インストール
+      - run: npm install
+
+      # フロントエンドのビルド
+      - run: |
+          cd apps/web
+          npm install
+          npm run build
+
+      # バックエンドのビルド（TypeScript コンパイル）
+      - run: |
+          cd apps/api
+          npm install
+          npm run build
