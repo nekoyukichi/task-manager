@@ -34,6 +34,15 @@
     --card-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
   }
   
+  /* —————— カードの浮き上がり効果 —————— */
+  .card {
+    transition: transform 0.2s, box-shadow 0.2s;
+  }
+  .card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2);
+  }
+  
   /* —————— グローバル適用 —————— */
   body {
     margin: 0;

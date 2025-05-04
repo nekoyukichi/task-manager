@@ -2,11 +2,12 @@
 
 import React, { useEffect, useState } from "react";
 import { fetchItems, purchaseItem, Item } from "../services/api";
-import { useTheme } from "../context/ThemeContext";
+import { Card } from "./Card";
+import { motion, AnimatePresence } from "framer-motion";
+import { ShoppingCart, CheckCircle2 } from "lucide-react";
 
 export const Store: React.FC = () => {
   const [items, setItems] = useState<Item[]>([]);
-  const { setTheme } = useTheme();
 
   useEffect(() => {
     fetchItems().then(setItems);
@@ -16,40 +17,63 @@ export const Store: React.FC = () => {
     try {
       const { remaining } = await purchaseItem(id);
       alert(`購入成功！残りポイント: ${remaining} pt`);
-      const bought = items.find((i) => i._id === id);
-      if (bought?.name.includes("ネオン")) {
-        setTheme("neon");
-      }
     } catch (e: any) {
       alert(e.response?.data?.message || "購入に失敗しました");
     }
   };
 
   return (
-    <div style={{ marginTop: 32 }}>
+    <div style={{ marginTop: "var(--space-lg)" }}>
       <h2>🎁 ストア</h2>
       <ul style={{ listStyle: "none", padding: 0 }}>
-        {items.map((i) => (
-          <li
-            key={i._id}
-            style={{
-              borderBottom: "1px solid #ddd",
-              padding: "8px 0",
-              display: "flex",
-              alignItems: "center",
-            }}
-          >
-            <div style={{ flex: 1 }}>
-              <strong>{i.name}</strong> — {i.price} pt
-              {i.description && (
-                <div style={{ fontSize: 12, color: "#555" }}>
-                  {i.description}
+        <AnimatePresence>
+          {items.map((i) => (
+            <motion.li
+              key={i._id}
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, scale: 0.9 }}
+              transition={{ duration: 0.3 }}
+            >
+              <Card
+                className="card"
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "space-between",
+                  padding: "var(--space-md)",
+                }}
+              >
+                <div style={{ display: "flex", alignItems: "center" }}>
+                  <ShoppingCart
+                    size={24}
+                    color="var(--primary-color)"
+                    style={{ marginRight: "var(--space-sm)" }}
+                  />
+                  <div>
+                    <strong>{i.name}</strong> — {i.price} pt
+                    {i.description && (
+                      <div style={{ fontSize: "var(--font-sm)", color: "#555" }}>
+                        {i.description}
+                      </div>
+                    )}
+                  </div>
                 </div>
-              )}
-            </div>
-            <button onClick={() => handleBuy(i._id)}>購入</button>
-          </li>
-        ))}
+                <button
+                  onClick={() => handleBuy(i._id)}
+                  style={{
+                    background: "none",
+                    border: "none",
+                    cursor: "pointer",
+                    padding: "var(--space-sm)",
+                  }}
+                >
+                  <CheckCircle2 size={28} color="var(--primary-color)" />
+                </button>
+              </Card>
+            </motion.li>
+          ))}
+        </AnimatePresence>
       </ul>
     </div>
   );

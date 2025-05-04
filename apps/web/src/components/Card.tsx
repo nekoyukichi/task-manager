@@ -1,23 +1,22 @@
 // apps/web/src/components/Card.tsx
 
-import React, { ReactNode } from "react";
+import React from "react";
 
-interface CardProps {
-  children: ReactNode;
-  style?: React.CSSProperties;
+interface CardProps extends React.HTMLAttributes<HTMLDivElement> {
+  // もし他に props があればここに追加
 }
 
-export const Card: React.FC<CardProps> = ({ children, style }) => (
-  <div
-    style={{
-      background: "var(--card-bg)",
-      boxShadow: "var(--card-shadow)",
-      borderRadius: "var(--space-sm)",
-      padding: "var(--space-md)",
-      marginBottom: "var(--space-md)",
-      ...style,
-    }}
-  >
-    {children}
-  </div>
-);
+export const Card: React.FC<CardProps> = ({
+  children,
+  className,
+  style,
+  ...rest
+}) => {
+  // className をマージして div に渡します
+  const cls = ["card", className].filter(Boolean).join(" ");
+  return (
+    <div className={cls} style={style} {...rest}>
+      {children}
+    </div>
+  );
+};
