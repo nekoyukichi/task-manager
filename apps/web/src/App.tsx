@@ -11,14 +11,17 @@ function App() {
   const [showForm, setShowForm] = useState(false);
 
   return (
-    <div style={{ padding: "var(--space-lg)" }}>
+    <div className="app-container">
+      {/* ポイント残高 */}
       <PointsDisplay />
 
+      {/* タスクリスト + 追加フォーム */}
       <TaskList showForm={showForm} />
 
+      {/* ストア画面 */}
       <Store />
 
-      {/* フォローティングボタンでフォームの表示/非表示 */}
+      {/* フローティングボタンでフォームの表示/非表示 */}
       <Fab onClick={() => setShowForm((prev) => !prev)} />
     </div>
   );

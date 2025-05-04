@@ -34,13 +34,82 @@
     --card-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
   }
   
+  /* —————— レイアウト用コンテナ —————— */
+  .app-container {
+    max-width: 480px;
+    margin: 0 auto;
+    padding: var(--space-lg) var(--space-md);
+  }
+  
+  /* —————— ヘッダーカード —————— */
+  .app-header {
+    background: var(--primary-color);
+    color: #fff;
+    padding: var(--space-lg);
+    border-radius: 0 0 16px 16px;
+    text-align: center;
+    margin-bottom: var(--space-lg);
+  }
+  .app-header h1 {
+    margin: 0;
+    font-size: clamp(1.75rem, 6vw, 2.5rem);
+  }
+  
+  /* —————— タスク追加フォーム —————— */
+  .add-form {
+    display: flex;
+    gap: var(--space-sm);
+    background: var(--card-bg);
+    padding: var(--space-sm) var(--space-md);
+    border-radius: 12px;
+    box-shadow: var(--card-shadow);
+    margin-bottom: var(--space-lg);
+  }
+  .add-form input {
+    flex: 1;
+    border: 1px solid #ccc;
+    padding: var(--space-sm) var(--space-md);
+    border-radius: 8px;
+    font-size: var(--font-md);
+  }
+  .fab {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    background: var(--primary-color);
+    color: var(--button-text);
+    font-size: 1.5rem;
+    line-height: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: none;
+    box-shadow: var(--card-shadow);
+    cursor: pointer;
+    transition: transform 0.2s;
+  }
+  .fab:hover {
+    transform: translateY(-2px);
+  }
+  
   /* —————— カードの浮き上がり効果 —————— */
-  .card {
+  .card,
+  .task-card {
     transition: transform 0.2s, box-shadow 0.2s;
   }
-  .card:hover {
+  .card:hover,
+  .task-card:hover {
     transform: translateY(-4px);
     box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2);
+  }
+  
+  /* —————— タスクカード色分け —————— */
+  .task-card.pending {
+    background: var(--card-bg);
+  }
+  .task-card.done {
+    background: #f0f0f0;
+    opacity: 0.7;
   }
   
   /* —————— グローバル適用 —————— */
