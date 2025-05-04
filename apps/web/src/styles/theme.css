@@ -35,10 +35,20 @@
   }
   
   /* —————— カードの浮き上がり効果 —————— */
+  /* 汎用カード */
   .card {
     transition: transform 0.2s, box-shadow 0.2s;
   }
   .card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2);
+  }
+  
+  /* タスクリスト用カード */
+  .task-card {
+    transition: transform 0.2s, box-shadow 0.2s;
+  }
+  .task-card:hover {
     transform: translateY(-4px);
     box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2);
   }
