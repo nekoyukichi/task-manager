@@ -2,7 +2,7 @@ name: CI
 
 on:
   push:
-    branches: [ main, chore/infra-setup, feat/task-crud ]
+    branches: [ main, feat/frontend-crud, feat/points-system ]
   pull_request:
     branches: [ main ]
 
@@ -10,24 +10,28 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
+      # リポジトリをチェックアウト
       - uses: actions/checkout@v3
 
-      # Node セットアップ (npm)
+      # Node.js をセットアップ（npm 版）
       - uses: actions/setup-node@v3
         with:
           node-version: 18
 
-      # ルートの依存インストール
-      - run: npm install
+      # ルートの依存インストール（もし lint スクリプトをルートに追加していればここで通る）
+      - name: Install root deps
+        run: npm install
 
       # フロントエンドのビルド
-      - run: |
+      - name: Build web
+        run: |
           cd apps/web
           npm install
           npm run build
 
       # バックエンドのビルド（TypeScript コンパイル）
-      - run: |
+      - name: Build api
+        run: |
           cd apps/api
           npm install
           npm run build
