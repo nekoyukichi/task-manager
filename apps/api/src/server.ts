@@ -3,18 +3,19 @@
 import express from "express";
 import cors from "cors";
 import mongoose from "mongoose";
-import tasksRouter from "./routes/tasks";  // ここを確認！
+import tasksRouter from "./routes/tasks";
+import pointsRouter from "./routes/points"; // ← ここを追加
 
 const app = express();
 app.use(cors());
 app.use(express.json());
 
-// MongoDB 接続
+// MongoDB接続
 const MONGO_URI = process.env.MONGO_URI || "mongodb://localhost:27017/task-manager";
 mongoose
   .connect(MONGO_URI)
   .then(() => console.log("✅ Connected to MongoDB"))
-  .catch(err => {
+  .catch((err) => {
     console.error("❌ MongoDB connection error:", err);
     process.exit(1);
   });
@@ -24,8 +25,11 @@ app.get("/health", (_req, res) => {
   res.json({ status: "ok" });
 });
 
-// ← ここで /tasks に router を登録
+// タスク CRUD API
 app.use("/tasks", tasksRouter);
+
+// ポイント API をマウント
+app.use("/points", pointsRouter);
 
 // エラーハンドリング
 app.use((err: any, _req: any, res: any, _next: any) => {
