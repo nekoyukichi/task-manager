@@ -17,6 +17,10 @@ const API = axios.create({
   baseURL: "http://localhost:4000", // バックエンドの URL
 });
 
+//ポイント残高を取得
+export const fetchPoints = (): Promise<{ total: number }> => 
+  API.get<{ total: number }>("/points").then((res) => res.data);
+
 /**
  * タスク一覧を取得する
  */

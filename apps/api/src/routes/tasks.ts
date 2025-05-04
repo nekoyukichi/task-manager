@@ -2,16 +2,14 @@
 
 import { Router, Request, Response, NextFunction } from "express";
 import { Task } from "../models/task";
+import { Point } from "../models/point";
 
 const router = Router();
 
-/**
- * GET /tasks
- * タスク一覧を取得する
- */
+/** GET /tasks */
 router.get(
   "/",
-  async (req: Request, res: Response, _next: NextFunction): Promise<void> => {
+  async (_req: Request, res: Response, _next: NextFunction): Promise<void> => {
     try {
       const tasks = await Task.find().sort({ createdAt: -1 });
       res.status(200).json(tasks);
@@ -21,10 +19,7 @@ router.get(
   }
 );
 
-/**
- * POST /tasks
- * 新しいタスクを作成する
- */
+/** POST /tasks */
 router.post(
   "/",
   async (req: Request, res: Response, _next: NextFunction): Promise<void> => {
@@ -39,10 +34,7 @@ router.post(
   }
 );
 
-/**
- * PATCH /tasks/:id
- * 指定IDのタスクを更新する
- */
+/** PATCH /tasks/:id */
 router.patch(
   "/:id",
   async (req: Request, res: Response, _next: NextFunction): Promise<void> => {
@@ -54,7 +46,14 @@ router.patch(
       );
       if (!updated) {
         res.status(404).json({ message: "Task not found" });
-        return;  // ここで戻る
+        return;
+      }
+      // 完了ステータス「done」なら +10pt
+      if (req.body.status === "done") {
+        const pts = (await Point.findOne()) || new Point();
+        pts.total += 10;
+        pts.history.push({ change: 10, reason: "タスク完了", date: new Date() });
+        await pts.save();
       }
       res.status(200).json(updated);
     } catch (err) {
@@ -63,10 +62,7 @@ router.patch(
   }
 );
 
-/**
- * DELETE /tasks/:id
- * 指定IDのタスクを削除する
- */
+/** DELETE /tasks/:id */
 router.delete(
   "/:id",
   async (req: Request, res: Response, _next: NextFunction): Promise<void> => {
@@ -74,7 +70,7 @@ router.delete(
       const deleted = await Task.findByIdAndDelete(req.params.id);
       if (!deleted) {
         res.status(404).json({ message: "Task not found" });
-        return;  // ここで戻る
+        return;
       }
       res.status(204).end();
     } catch (err) {
