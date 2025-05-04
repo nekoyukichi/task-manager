@@ -1,0 +1,45 @@
+/* apps/web/src/styles/theme.css */
+
+/* —————— デザインシステム変数 —————— */
+:root {
+    /* カラー */
+    --bg-color: #f5f5f5;
+    --text-color: #222222;
+    --card-bg: #ffffff;
+    --card-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    --primary-color: #646cff;
+    --font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
+  
+    /* タイポグラフィ */
+    --font-lg: 2rem;
+    --font-md: 1rem;
+    --font-sm: 0.875rem;
+  
+    /* スペーシング */
+    --space-sm: 8px;
+    --space-md: 16px;
+    --space-lg: 24px;
+  
+    /* ボタン */
+    --button-bg: var(--primary-color);
+    --button-text: #ffffff;
+    --button-radius: 50%;
+  }
+  
+  /* —————— ダークテーマ（オプション） —————— */
+  [data-theme="dark"] {
+    --bg-color: #222222;
+    --text-color: #f5f5f5;
+    --card-bg: #2a2a2a;
+    --card-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+  }
+  
+  /* —————— グローバル適用 —————— */
+  body {
+    margin: 0;
+    font-family: var(--font-family);
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    transition: background-color 0.3s, color 0.3s;
+  }
+  

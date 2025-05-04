@@ -12,13 +12,22 @@ export interface Task {
   status: "pending" | "done";
 }
 
+// ストア用アイテム型定義
+export interface Item {
+  _id: string;
+  name: string;
+  price: number;
+  description?: string;
+  icon?: string;
+}
+
 // Axios インスタンスを作成
 const API = axios.create({
   baseURL: "http://localhost:4000", // バックエンドの URL
 });
 
-//ポイント残高を取得
-export const fetchPoints = (): Promise<{ total: number }> => 
+// ポイント残高を取得
+export const fetchPoints = (): Promise<{ total: number }> =>
   API.get<{ total: number }>("/points").then((res) => res.data);
 
 /**
@@ -45,7 +54,22 @@ export const updateTask = (
  * タスクを削除する
  */
 export const deleteTask = (id: string): Promise<void> =>
-      API.delete(`/tasks/${id}`)
-         .then(() => {
-           // delete は何も返ってこないので、ここで void に変換
-         });
+  API.delete(`/tasks/${id}`).then(() => {
+    // delete は何も返ってこないので、ここで void に変換
+  });
+
+/**
+ * 商品一覧を取得する (ストア)
+ */
+export const fetchItems = (): Promise<Item[]> =>
+  API.get<Item[]>("/items").then((res) => res.data);
+
+/**
+ * 商品を購入する (ストア)
+ */
+export const purchaseItem = (
+  itemId: string
+): Promise<{ remaining: number }> =>
+  API.post<{ remaining: number }>("/items/purchase", { itemId }).then(
+    (res) => res.data
+);
