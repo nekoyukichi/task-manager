@@ -1,4 +1,3 @@
-import React from "react";
 import { PointsDisplay } from "./components/PointsDisplay";
 import { TaskList } from "./components/TaskList";
 
